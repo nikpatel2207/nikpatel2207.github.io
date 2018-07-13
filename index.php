@@ -1,4 +1,3 @@
-<?php if(!(isset($_GET['test']) && empty($_GET['test']))) { echo "Something went wrong.!!"; die(); } ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
