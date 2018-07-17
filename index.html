@@ -17,17 +17,24 @@
 	.mgnt3 {
 		margin-top:3px; 
 	}
+	.mgnb0 {
+		margin-bottom:0px; 
+	}
 	.mgnt10 {
 		margin-top:10px; 
 	}
 	input {
 		font-size: 16px;
   	}
-	ul {
+  	ol {
+  		font-size: 14px;
+  		padding: 0 8%;
+  	} 
+	.box_contain ul {
 		padding: 0;
 		margin: 0;
 	}
-	ul li {
+	.box_contain ul li {
 		width: auto;
 		float: left;
 		list-style-type: none;
@@ -39,12 +46,12 @@
 		font-weight: bold;
 		cursor: pointer;
 	}
-	ul li.cls_select {
+	.box_contain ul li.cls_select {
 		background-color: black;
 		color: #3c3c3c;
 	}
 	@media screen and (max-width: 830px) {
-		ul li {
+		.box_contain ul li {
 			min-width: 18.5%;
 		}
 	}
@@ -62,7 +69,7 @@
 			</div>
 			<!-- /.panel-heading -->
             <div class="panel-body">
-            	<div id="id_no_contain"><center>Ready Bura...</center></div>
+            	<div class="box_contain" id="id_no_contain"><center>Ready Bura...</center></div>
             </div>
             <!-- /.panel-body -->
 		</div>
@@ -71,12 +78,10 @@
 <div class="row hidden" id="id_summary">
 	<div class="col-xs-12"> 
 		<div class="panel panel-default">
-			<div class="panel-heading text-center">
-				Game Summary
-			</div>
+			<div class="panel-heading text-center"> Lost the Game </div>
 			<!-- /.panel-heading -->
-            <div class="panel-body" id="id_summary_data">
-            	
+            <div class="panel-body">
+            	<ol id="id_summary_data"> </ol>
             </div>
             <!-- /.panel-body -->
 		</div>
@@ -295,6 +300,8 @@ $(document).on('click','#id_end_session',function(){
 	minVal = 1;
 	maxVal = 20;
 	player = '';
+	$("#id_summary_data").html("");
+	$("#id_summary").addClass("hidden");
 	fnReset();
 	fnInit();
 });
@@ -412,12 +419,21 @@ $(document).on('click','#id_final_close',function(){
 		if(is_done)
 		{
 			var textHtml = '';
+			var textHtml_1 = '';
 			var lose_no = 0;
 			$.each( dataArray, function( key, value ) {
 				lose_no = value.number;
 				textHtml += '<h5>'+value.name+'<h5>';
+				if(textHtml_1 != '') {
+					textHtml_1 += ", ";
+				}
+				textHtml_1 += value.name;
 			});
 			dataArray = [];
+			if(textHtml != '') {
+				$("#id_summary_data").append('<li><p class="mgnb0">'+textHtml_1+' </li>');
+				$("#id_summary").removeClass("hidden");
+			}
 			if(textHtml != '') {
 				$("#id_lose_header span").html(lose_no);
 				$("#id_lose_contain").html(textHtml);
