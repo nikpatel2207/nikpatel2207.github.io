@@ -68,6 +68,20 @@
 		</div>
 	</div>
 </div>
+<div class="row hidden" id="id_summary">
+	<div class="col-xs-12"> 
+		<div class="panel panel-default">
+			<div class="panel-heading text-center">
+				Game Summary
+			</div>
+			<!-- /.panel-heading -->
+            <div class="panel-body" id="id_summary_data">
+            	
+            </div>
+            <!-- /.panel-body -->
+		</div>
+	</div>
+</div>
 <!-- Modal -->
 <div id="first_model" class="modal fade" role="dialog">
 	<div class="modal-dialog">
@@ -192,7 +206,7 @@ this.activeTarget=b,this.clear();var c=this.selector+'[data-target="'+b+'"],'+th
 // //~ ----------------------------------------------------------------------------------- ~// //
 var minVal = 1;
 var maxVal = 20;
-var player = 0;
+var player = '';
 var dataArray = [];
 // //~ -----------------------------------------------------------------------------------
 function fnReset()
@@ -200,16 +214,19 @@ function fnReset()
 	dataArray = [];
 	$("#id_min_value").val(minVal);
 	$("#id_max_value").val(maxVal);
+	$("#no_of_player").val(player);
 	$("#id_end_session").addClass('hidden');
 	$("#id_name").val('');
 	$("#id_number").val('');
 }
 fnReset();
-$("#no_of_player").val('');
 // //~ -----------------------------------------------------------------------------------
 function fnInit()
 {
 	fnReset();
+	tmp_minVal = 0;
+	tmp_maxVal = 0;
+	tmp_player = 0;
 	$('#first_model').modal({
 		backdrop: 'static',
 		keyboard: false
@@ -242,7 +259,8 @@ function chkFirstValid() {
 	}
 	return error;
 }
-$(document).on('click','#id_save_first',function(){
+function startGame()
+{
 	var chkValid = chkFirstValid();
 	if(!chkValid) {
 		minVal = parseInt($("#id_min_value").val()) || 0;
@@ -261,18 +279,23 @@ $(document).on('click','#id_save_first',function(){
 		$('#first_model').modal('hide');
 		secondModal();
 	}
+}
+$(document).on('click','#id_save_first',function(){
+	startGame();
 });
 $(document).on('click','#id_start_again',function(){
-	if(player != '' && player > 0) {
-		fnReset();
-		secondModal();
+	fnReset();
+	if(player > 1) {
+		startGame();
 	} else {
 		fnInit();
 	}
 });
 $(document).on('click','#id_end_session',function(){
-	player = 0;
-	$("#no_of_player").val('');
+	minVal = 1;
+	maxVal = 20;
+	player = '';
+	fnReset();
 	fnInit();
 });
 // //~ -----------------------------------------------------------------------------------
@@ -411,7 +434,6 @@ $(document).on('click','#id_final_close',function(){
 });
 // //~ -----------------------------------------------------------------------------------
 $(document).ready(function(){
-	$("#no_of_player").val('');
 	fnInit();
 });
 </script>
